@@ -1,0 +1,191 @@
+/* static/style.css */
+
+:root {
+    --primary-color: #ad1457;
+    --secondary-color: #d81b60;
+    --gradient-start: #ad1457;
+    --gradient-end: #d81b60;
+    --background-dark: #2a0a1f;
+    --card-background: #3a1a2f;
+    --text-dark: #f8f9fa;
+    --text-light: #f8f9fa;
+    --border-color: #6a0d2f;
+}
+
+body {
+    background: var(--background-dark);
+    color: var(--text-dark);
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+}
+
+.navbar {
+    background-color: var(--primary-color) !important;
+    background-image: linear-gradient(to right, var(--gradient-start), var(--gradient-end)) !important;
+}
+.navbar-brand, .nav-link {
+    color: var(--text-light) !important;
+    font-weight: 500;
+}
+
+.container {
+    background-color: var(--card-background);
+    padding: 25px;
+    border-radius: 15px;
+    box-shadow: 0 8px 15px rgba(0, 0, 0, 0.4);
+    color: var(--text-dark);
+    margin-top: 30px;
+    margin-bottom: 30px;
+}
+
+h2 {
+    color: var(--secondary-color);
+    font-weight: 600;
+    margin-bottom: 25px;
+    text-align: center;
+}
+
+.form-label {
+    font-weight: 500;
+    color: var(--text-dark);
+}
+
+.form-control, .form-select {
+    background-color: #4a2a3f;
+    color: var(--text-dark);
+    border: 1px solid var(--border-color);
+    border-radius: 8px;
+    padding: 10px 15px;
+}
+.form-control:focus, .form-select:focus {
+    border-color: var(--secondary-color);
+    box-shadow: 0 0 0 0.25rem rgba(216, 27, 96, 0.4);
+}
+
+.form-control::placeholder {
+    color: #b8b8b8;
+    opacity: 1;
+}
+
+.form-control[disabled], .form-control[readonly] {
+    background-color: #5a3a4f;
+    color: #f8f9fa;
+    border: 1px solid #6a0d2f;
+}
+
+.btn-primary {
+    background-color: var(--primary-color);
+    background-image: linear-gradient(to right, var(--gradient-start), var(--gradient-end));
+    border: none;
+    border-radius: 8px;
+    padding: 10px 20px;
+    font-weight: 600;
+    transition: all 0.3s ease;
+}
+.btn-primary:hover {
+    opacity: 0.9;
+    transform: translateY(-2px);
+}
+
+.btn-warning {
+    background-color: #fbc02d;
+    border-color: #fbc02d;
+    color: #2a0a1f;
+    border-radius: 8px;
+    padding: 8px 15px;
+    font-weight: 500;
+}
+.btn-danger {
+    background-color: #c62828;
+    border-color: #c62828;
+    border-radius: 8px;
+    padding: 8px 15px;
+    font-weight: 500;
+}
+.btn-secondary {
+    background-color: #4f4f4f;
+    border-color: #4f4f4f;
+    border-radius: 8px;
+    padding: 8px 15px;
+    font-weight: 500;
+}
+.btn-success {
+    background-color: #28a745;
+    border-color: #28a745;
+    color: #fff;
+    border-radius: 8px;
+    padding: 8px 15px;
+    font-weight: 500;
+}
+
+.table {
+    color: var(--text-dark);
+}
+.table thead {
+    background-color: var(--primary-color);
+    color: var(--text-light);
+}
+.table th {
+    border-bottom: 2px solid var(--secondary-color);
+}
+.table-striped tbody tr:nth-of-type(odd) {
+    background-color: rgba(255, 255, 255, 0.05);
+}
+
+.input-group .btn {
+    border-top-left-radius: 0;
+    border-bottom-left-radius: 0;
+}
+.input-group input:not(:last-child) {
+    border-top-right-radius: 0;
+    border-bottom-right-radius: 0;
+}
+
+.file-input-label {
+    background-color: #4a2a3f;
+    color: var(--text-dark);
+    border: 1px solid var(--border-color);
+    border-radius: 8px;
+    padding: 10px 15px;
+    cursor: pointer;
+    display: inline-block;
+}
+.file-input-label:hover {
+    background-color: #5a3a4f;
+}
+.file-input-wrapper input[type="file"] {
+    display: none;
+}
+
+.btn .fa {
+    margin-right: 5px;
+}
+
+.autocomplete-items {
+    position: absolute;
+    border: 1px solid var(--border-color);
+    border-bottom: none;
+    border-top: none;
+    z-index: 99;
+    top: 100%;
+    left: 0;
+    right: 0;
+    max-height: 200px;
+    overflow-y: auto;
+}
+.autocomplete-items div {
+    padding: 10px;
+    cursor: pointer;
+    background-color: var(--card-background);
+    border-bottom: 1px solid var(--border-color);
+    color: var(--text-dark);
+}
+.autocomplete-items div:hover {
+    background-color: rgba(255, 255, 255, 0.1);
+}
+
+.autocomplete {
+    position: relative;
+    display: inline-block;
+    width: 100%;
+}
+

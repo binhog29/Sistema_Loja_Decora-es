@@ -1,0 +1,35 @@
+{
+    "1234": {
+        "nome": "Teste",
+        "quantidade": 416,
+        "preco": 100.0,
+        "tipo": "Aluguel",
+        "foto": "1234_IMG-20250813-WA0112.jpeg",
+        "preco_compra": 100.0,
+        "porcentagem_lucro": 50.0,
+        "preco_venda_aluguel": 150.0
+    },
+    "0001": {
+        "nome": "Testando",
+        "quantidade": 23,
+        "preco": 50.0,
+        "tipo": "Aluguel",
+        "foto": null
+    },
+    "0002": {
+        "nome": "Teste03",
+        "quantidade": 28,
+        "preco": 35.0,
+        "tipo": "Aluguel",
+        "foto": null
+    },
+    "5": {
+        "nome": "Painel romano",
+        "quantidade": 4,
+        "tipo": "Aluguel",
+        "preco_compra": 150.0,
+        "porcentagem_lucro": 34.0,
+        "preco_venda_aluguel": 201.0,
+        "foto": null
+    }
+}

@@ -1,0 +1,22 @@
+{
+    "name": "Gerenciamento Loja de Decorações",
+    "short_name": "LojaDeco",
+    "description": "Aplicativo para gerenciar produtos, clientes e combos de uma loja de decorações.",
+    "start_url": "/",
+    "scope": "/",
+    "display": "standalone",
+    "background_color": "#343a40",
+    "theme_color": "#343a40",
+    "icons": [
+        {
+            "src": "/static/images/icon-192x192.png",
+            "sizes": "192x192",
+            "type": "image/png"
+        },
+        {
+            "src": "/static/images/icon-512x512.png",
+            "sizes": "512x512",
+            "type": "image/png"
+        }
+    ]
+}

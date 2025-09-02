@@ -1,0 +1,98 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Detalhes do Cliente</title>
+    <link rel="manifest" href="{{ url_for('static', filename='manifest.json') }}">
+    <script>
+        if ('serviceWorker' in navigator) {
+            window.addEventListener('load', function() {
+                console.log('Tentando registrar o Service Worker...');
+                navigator.serviceWorker.register('{{ url_for('static', filename='service-worker.js') }}').then(function(registration) {
+                    console.log('Service Worker registrado com sucesso: ', registration.scope);
+                }, function(err) {
+                    console.log('Falha no registro do Service Worker: ', err);
+                });
+            });
+        } else {
+            console.log('Seu navegador não suporta Service Worker.');
+        }
+    </script>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+</head>
+<body>
+
+    <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+    <div class="container-fluid">
+        <a class="navbar-brand" href="/">Gerenciamento da Loja de Decorações</a>
+        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse" id="navbarNav">
+            <ul class="navbar-nav">
+                <li class="nav-item">
+                    <a class="nav-link" href="{{ url_for('produtos') }}"><i class="fas fa-box-open"></i> Produtos</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link active" aria-current="page" href="{{ url_for('clientes') }}"><i class="fas fa-users"></i> Clientes</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="{{ url_for('nova_transacao') }}"><i class="fas fa-cart-plus"></i> Nova Transação</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="{{ url_for('historico_transacoes') }}"><i class="fas fa-exchange-alt"></i> Transações</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="{{ url_for('combos') }}"><i class="fas fa-boxes"></i> Combos</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="{{ url_for('agenda') }}"><i class="fas fa-calendar-alt"></i> Agenda</a>
+                </li>
+            </ul>
+        </div>
+    </div>
+</nav>
+
+
+    <div class="container mt-4">
+        <h2>Detalhes do Cliente: {{ cliente.nome }}</h2>
+        <div class="card bg-light mb-3">
+            <div class="card-body">
+                <div class="row">
+                    <div class="col-md-4 text-center">
+                        {% if cliente.foto %}
+                        <img src="{{ url_for('static', filename='clientes/' + cliente.foto) }}" class="img-fluid rounded" alt="Foto do cliente">
+                        {% else %}
+                        <div class="text-muted border rounded p-5">
+                            <i class="fas fa-image fa-5x"></i>
+                            <p class="mt-2">Sem foto</p>
+                        </div>
+                        {% endif %}
+                    </div>
+                    <div class="col-md-8">
+                        <p><strong>ID do Cliente:</strong> {{ cliente.id }}</p>
+                        <p><strong>Nome:</strong> {{ cliente.nome }}</p>
+                        <p><strong>Telefone:</strong> {{ cliente.telefone }}</p>
+                        <p><strong>Endereço:</strong> {{ cliente.endereco }}</p>
+                        <p><strong>Coordenadas:</strong> {{ cliente.coordenadas }}</p>
+                        <hr>
+                        <p><strong>Observação:</strong></p>
+                        <p>{{ cliente.observacao }}</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <div class="mt-4">
+            <a href="{{ url_for('pagina_editar_cliente', id_cliente=cliente.id) }}" class="btn btn-warning"><i class="fas fa-edit"></i> Editar Cliente</a>
+            <a href="{{ url_for('historico_cliente', id_cliente=cliente.id) }}" class="btn btn-info"><i class="fas fa-history"></i> Ver Histórico</a>
+            <a href="{{ url_for('clientes') }}" class="btn btn-secondary"><i class="fas fa-arrow-left"></i> Voltar</a>
+        </div>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>

@@ -1,0 +1,327 @@
+{
+    "1": {
+        "tipo": "venda",
+        "sku": "1234",
+        "quantidade": 5,
+        "total": 1250.0
+    },
+    "2": {
+        "id_cliente": "1",
+        "tipo": "Aluguel",
+        "data": "2025-08-27T08:15:32.230629",
+        "produtos": [
+            {
+                "sku": "1234",
+                "nome": "Teste",
+                "quantidade": 100,
+                "preco_unitario": 100.0,
+                "total_item": 10000.0
+            }
+        ],
+        "total": 10000.0,
+        "status": "finalizado"
+    },
+    "3": {
+        "id_cliente": "1",
+        "tipo": "Aluguel",
+        "data": "2025-08-27T10:29:19.829852",
+        "produtos": [
+            {
+                "sku": "1234",
+                "nome": "Teste",
+                "quantidade": 1,
+                "preco_unitario": 100.0,
+                "total_item": 100.0
+            }
+        ],
+        "total": 100.0,
+        "status": "finalizado"
+    },
+    "4": {
+        "id_cliente": "1",
+        "tipo": "Aluguel",
+        "data": "2025-08-27T10:44:10.001101",
+        "data_inicio": "2025-08-27",
+        "data_fim": "2025-08-30",
+        "itens": [
+            {
+                "sku": "1234",
+                "nome": "Teste",
+                "quantidade": 1,
+                "preco_unitario": 100.0,
+                "total_item": 100.0
+            },
+            {
+                "sku": "0001",
+                "nome": "Testando",
+                "quantidade": 1,
+                "preco_unitario": 50.0,
+                "total_item": 50.0
+            },
+            {
+                "tipo": "combo",
+                "id": "1",
+                "nome": "Combo_Teste",
+                "quantidade": 1,
+                "itens": [
+                    {
+                        "sku": "1234",
+                        "nome": "Teste",
+                        "quantidade": 1
+                    },
+                    {
+                        "sku": "0001",
+                        "nome": "Testando",
+                        "quantidade": 1
+                    },
+                    {
+                        "sku": "0002",
+                        "nome": "Teste03",
+                        "quantidade": 1
+                    }
+                ],
+                "preco_total": 185.0
+            }
+        ],
+        "total": 335.0,
+        "status": "finalizado"
+    },
+    "5": {
+        "id_cliente": "1",
+        "tipo": "Venda",
+        "data": "2025-08-27T13:11:44.507341",
+        "data_inicio": "",
+        "data_fim": "",
+        "itens": [
+            {
+                "id_produto": "1234",
+                "nome": "Teste",
+                "quantidade": 1,
+                "preco_unitario": 150.0,
+                "total_item": 150.0
+            },
+            {
+                "tipo": "combo",
+                "id": "1",
+                "nome": "Combo_Teste",
+                "quantidade": 1,
+                "itens": [
+                    {
+                        "sku": "1234",
+                        "nome": "Teste",
+                        "quantidade": 1
+                    },
+                    {
+                        "sku": "0001",
+                        "nome": "Testando",
+                        "quantidade": 1
+                    },
+                    {
+                        "sku": "0002",
+                        "nome": "Teste03",
+                        "quantidade": 1
+                    }
+                ],
+                "preco_total": 185.0
+            }
+        ],
+        "total_itens": 335.0,
+        "frete": 0.0,
+        "desconto": 0.0,
+        "servicos": 0.0,
+        "montagem": 0.0,
+        "forma_pagamento": "Dinheiro",
+        "total": 335.0
+    },
+    "6": {
+        "id_cliente": "1",
+        "tipo": "Aluguel",
+        "data": "2025-08-27T13:12:55.968162",
+        "data_inicio": "2025-08-27",
+        "data_fim": "2025-08-30",
+        "itens": [
+            {
+                "id_produto": "1234",
+                "nome": "Teste",
+                "quantidade": 2,
+                "preco_unitario": 150.0,
+                "total_item": 300.0
+            },
+            {
+                "tipo": "combo",
+                "id": "1",
+                "nome": "Combo_Teste",
+                "quantidade": 1,
+                "itens": [
+                    {
+                        "sku": "1234",
+                        "nome": "Teste",
+                        "quantidade": 1
+                    },
+                    {
+                        "sku": "0001",
+                        "nome": "Testando",
+                        "quantidade": 1
+                    },
+                    {
+                        "sku": "0002",
+                        "nome": "Teste03",
+                        "quantidade": 1
+                    }
+                ],
+                "preco_total": 185.0
+            }
+        ],
+        "total_itens": 485.0,
+        "frete": 0.0,
+        "desconto": 0.0,
+        "servicos": 0.0,
+        "montagem": 0.0,
+        "forma_pagamento": "Pix",
+        "total": 485.0,
+        "status": "finalizado"
+    },
+    "7": {
+        "id_cliente": "1",
+        "tipo": "Venda",
+        "data": "2025-08-27T13:15:34.425372",
+        "data_inicio": "",
+        "data_fim": "",
+        "itens": [
+            {
+                "id_produto": "1234",
+                "nome": "Teste",
+                "quantidade": 1,
+                "preco_unitario": 150.0,
+                "total_item": 150.0
+            },
+            {
+                "tipo": "combo",
+                "id": "1",
+                "nome": "Combo_Teste",
+                "quantidade": 1,
+                "itens": [
+                    {
+                        "sku": "1234",
+                        "nome": "Teste",
+                        "quantidade": 1
+                    },
+                    {
+                        "sku": "0001",
+                        "nome": "Testando",
+                        "quantidade": 1
+                    },
+                    {
+                        "sku": "0002",
+                        "nome": "Teste03",
+                        "quantidade": 1
+                    }
+                ],
+                "preco_total": 185.0
+            }
+        ],
+        "total_itens": 335.0,
+        "frete": 0.0,
+        "desconto": 0.0,
+        "servicos": 0.0,
+        "montagem": 0.0,
+        "forma_pagamento": "Dinheiro",
+        "total": 335.0
+    },
+    "8": {
+        "id_cliente": "1",
+        "tipo": "Aluguel",
+        "data": "2025-08-27T13:16:08.598532",
+        "data_inicio": "2025-08-27",
+        "data_fim": "2025-08-30",
+        "itens": [
+            {
+                "id_produto": "1234",
+                "nome": "Teste",
+                "quantidade": 1,
+                "preco_unitario": 150.0,
+                "total_item": 150.0
+            },
+            {
+                "tipo": "combo",
+                "id": "1",
+                "nome": "Combo_Teste",
+                "quantidade": 1,
+                "itens": [
+                    {
+                        "sku": "1234",
+                        "nome": "Teste",
+                        "quantidade": 1
+                    },
+                    {
+                        "sku": "0001",
+                        "nome": "Testando",
+                        "quantidade": 1
+                    },
+                    {
+                        "sku": "0002",
+                        "nome": "Teste03",
+                        "quantidade": 1
+                    }
+                ],
+                "preco_total": 185.0
+            }
+        ],
+        "total_itens": 335.0,
+        "frete": 0.0,
+        "desconto": 0.0,
+        "servicos": 0.0,
+        "montagem": 0.0,
+        "forma_pagamento": "Dinheiro",
+        "total": 335.0,
+        "status": "finalizado"
+    },
+    "9": {
+        "id_cliente": "1",
+        "tipo": "Aluguel",
+        "data": "2025-08-27T22:26:57.154060",
+        "data_inicio": "2025-08-15",
+        "data_fim": "2025-08-22",
+        "itens": [
+            {
+                "id_produto": "5",
+                "nome": "Painel romano",
+                "quantidade": 1,
+                "preco_unitario": 201.0,
+                "total_item": 201.0
+            },
+            {
+                "tipo": "combo",
+                "id": "1",
+                "nome": "Combo_Teste",
+                "quantidade": 1,
+                "itens": [
+                    {
+                        "sku": "1234",
+                        "nome": "Teste",
+                        "quantidade": 1
+                    },
+                    {
+                        "sku": "0001",
+                        "nome": "Testando",
+                        "quantidade": 1
+                    },
+                    {
+                        "sku": "0002",
+                        "nome": "Teste03",
+                        "quantidade": 1
+                    }
+                ],
+                "preco_total": 185.0
+            }
+        ],
+        "total_itens": 386.0,
+        "frete": 50.0,
+        "desconto": 0.0,
+        "servicos": 0.0,
+        "montagem": 0.0,
+        "forma_pagamento": "Pix",
+        "total": 436.0,
+        "status": "finalizado"
+    }
+}

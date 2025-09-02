@@ -1,0 +1,111 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Comprovante de Transação</title>
+    <link rel="manifest" href="{{ url_for('static', filename='manifest.json') }}">
+    <script>
+        if ('serviceWorker' in navigator) {
+            window.addEventListener('load', function() {
+                console.log('Tentando registrar o Service Worker...');
+                navigator.serviceWorker.register('{{ url_for('static', filename='service-worker.js') }}').then(function(registration) {
+                    console.log('Service Worker registrado com sucesso: ', registration.scope);
+                }, function(err) {
+                    console.log('Falha no registro do Service Worker: ', err);
+                });
+            });
+        } else {
+            console.log('Seu navegador não suporta Service Worker.');
+        }
+    </script>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <style>
+        .container {
+            max-width: 600px;
+        }
+        @media print {
+            body {
+                background-color: #fff;
+            }
+            .container {
+                box-shadow: none;
+                padding: 0;
+            }
+            .no-print {
+                display: none;
+            }
+        }
+    </style>
+</head>
+<body>
+
+    <div class="container mt-4">
+        <h2 class="text-center mb-4">Comprovante de {{ transacao.tipo }}</h2>
+        <p><strong>ID da Transação:</strong> {{ transacao.id }}</p>
+        <p><strong>Data:</strong> {{ transacao.data.strftime('%Y-%m-%d %H:%M') }}</p>
+        
+        {% if transacao.tipo == 'Aluguel' %}
+        <p><strong>Período de Aluguel:</strong> de {{ transacao.data_inicio }} a {{ transacao.data_fim }}</p>
+        {% endif %}
+        
+        <hr>
+        <h4>Dados do Cliente</h4>
+        <p><strong>Nome:</strong> {{ transacao.cliente.nome }}</p>
+        <p><strong>Telefone:</strong> {{ transacao.cliente.telefone }}</p>
+        <hr>
+        <h4>Detalhes da Transação</h4>
+        <p><strong>Forma de Pagamento:</strong> {{ transacao.forma_pagamento }}</p>
+        <ul class="list-group mb-3">
+            {% for item in transacao.itens %}
+            <li class="list-group-item d-flex justify-content-between lh-sm">
+                <div>
+                    <h6 class="my-0">{{ item.nome }}</h6>
+                    <small class="text-muted">Qtd: {{ item.quantidade }} - Preço Unit.: R$ {{ "{:.2f}".format(item.preco_unitario) }}</small>
+                </div>
+                <span class="text-muted">R$ {{ "{:.2f}".format(item.total_item) }}</span>
+            </li>
+            {% endfor %}
+        </ul>
+        <div class="d-flex justify-content-between fw-bold">
+            <span>Subtotal:</span>
+            <span>R$ {{ "{:.2f}".format(transacao.total_itens) }}</span>
+        </div>
+        <div class="d-flex justify-content-between">
+            <span>Frete:</span>
+            <span>+ R$ {{ "{:.2f}".format(transacao.frete) }}</span>
+        </div>
+        <div class="d-flex justify-content-between">
+            <span>Serviços:</span>
+            <span>+ R$ {{ "{:.2f}".format(transacao.servicos) }}</span>
+        </div>
+        <div class="d-flex justify-content-between">
+            <span>Montagem:</span>
+            <span>+ R$ {{ "{:.2f}".format(transacao.montagem) }}</span>
+        </div>
+        <div class="d-flex justify-content-between">
+            <span>Desconto:</span>
+            <span>- R$ {{ "{:.2f}".format(transacao.desconto) }}</span>
+        </div>
+        <div class="d-flex justify-content-between fw-bold border-top mt-2 pt-2">
+            <span>TOTAL:</span>
+            <span>R$ {{ "{:.2f}".format(transacao.total) }}</span>
+        </div>
+        <hr class="my-4">
+        
+        <div class="text-center mt-5">
+            <p>______________________________________</p>
+            <p>Assinatura do Cliente</p>
+        </div>
+
+        <div class="mt-4 text-center no-print">
+            <button class="btn btn-primary" onclick="window.print()"><i class="fas fa-print"></i> Imprimir Comprovante</button>
+            <a href="{{ url_for('historico_transacoes') }}" class="btn btn-secondary"><i class="fas fa-arrow-left"></i> Voltar</a>
+        </div>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>

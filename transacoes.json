@@ -1,0 +1,50 @@
+{
+    "1": {
+        "id_cliente": "1",
+        "tipo": "Aluguel",
+        "data": "2025-08-28T17:10:50.445814",
+        "data_inicio": "2025-08-28",
+        "data_fim": "2025-08-29",
+        "itens": [
+            {
+                "id_produto": "1",
+                "nome": "Exemplo01",
+                "quantidade": 2,
+                "preco_unitario": 100.0,
+                "total_item": 200.0
+            }
+        ],
+        "total_itens": 200.0,
+        "frete": 50.0,
+        "desconto": 0.0,
+        "servicos": 0.0,
+        "montagem": 0.0,
+        "forma_pagamento": "Dinheiro",
+        "total": 250.0,
+        "status": "finalizado"
+    },
+    "2": {
+        "id_cliente": "1",
+        "tipo": "Aluguel",
+        "data": "2025-08-28T19:09:19.723808",
+        "data_inicio": "2025-08-19",
+        "data_fim": "2025-08-25",
+        "itens": [
+            {
+                "id_produto": "1",
+                "nome": "Exemplo01",
+                "quantidade": 1,
+                "preco_unitario": 100.0,
+                "total_item": 100.0
+            }
+        ],
+        "total_itens": 100.0,
+        "frete": 0.0,
+        "desconto": 0.0,
+        "servicos": 0.0,
+        "montagem": 0.0,
+        "forma_pagamento": "PIX",
+        "total": 100.0,
+        "status": "finalizado"
+    }
+}
