@@ -1,0 +1,250 @@
+{% extends "base.html" %}
+
+{% block title %}Nova Transação{% endblock %}
+
+{% block head_extra %}
+<style>
+    .autocomplete-items {
+        position: absolute;
+        border: 1px solid var(--border-color);
+        border-bottom: none;
+        border-top: none;
+        z-index: 99;
+        top: 100%;
+        left: 0;
+        right: 0;
+        max-height: 200px;
+        overflow-y: auto;
+    }
+    .autocomplete-items div {
+        padding: 10px;
+        cursor: pointer;
+        background-color: var(--card-background);
+        border-bottom: 1px solid var(--border-color);
+        color: var(--text-dark);
+    }
+    .autocomplete-items div:hover {
+        background-color: rgba(255, 255, 255, 0.1);
+    }
+    .autocomplete {
+        position: relative;
+        display: inline-block;
+        width: 100%;
+    }
+</style>
+{% endblock %}
+
+{% block content %}
+<h2 class="mb-4">Registrar Nova Transação</h2>
+
+<div class="row">
+    <div class="col-md-6">
+        <div class="card p-3 mb-4">
+            <h3>Adicionar Itens ao Carrinho</h3>
+            <div class="mb-3">
+                <label for="adicionar_tipo" class="form-label">Tipo de Item</label>
+                <select class="form-select" id="adicionar_tipo" name="adicionar_tipo">
+                    <option value="produto">Produto</option>
+                    <option value="combo">Combo</option>
+                </select>
+            </div>
+            <form action="{{ url_for('adicionar_ao_carrinho') }}" method="post">
+                <input type="hidden" id="id_adicionar_item" name="id">
+                <input type="hidden" id="tipo_adicionar_item" name="tipo" value="produto">
+
+                <div class="mb-3" id="div_produto_select">
+                    <label for="campo-busca-produto" class="form-label">Buscar Produto:</label>
+                    <div class="autocomplete">
+                        <input type="text" id="campo-busca-produto" class="form-control" placeholder="Digite o nome do produto..." autocomplete="off">
+                    </div>
+                </div>
+
+                <div class="mb-3" id="div_combo_select" style="display: none;">
+                    <label for="campo-busca-combo" class="form-label">Buscar Combo:</label>
+                    <div class="autocomplete">
+                        <input type="text" id="campo-busca-combo" class="form-control" placeholder="Digite o nome do combo..." autocomplete="off">
+                    </div>
+                </div>
+                
+                <div class="mb-3">
+                    <label for="quantidade_item" class="form-label">Quantidade:</label>
+                    <input type="number" id="quantidade_item" name="quantidade" class="form-control" value="1" min="1" required>
+                </div>
+                <button type="submit" class="btn btn-primary"><i class="fas fa-plus"></i> Adicionar ao Carrinho</button>
+            </form>
+        </div>
+    </div>
+
+    <div class="col-md-6">
+        <div class="card p-3 mb-4">
+            <h3>Carrinho de Compras</h3>
+            <ul class="list-group mb-3">
+                {% for item in carrinho %}
+                <li class="list-group-item d-flex justify-content-between align-items-center">
+                    <div>
+                        <a href="{{ url_for('detalhes_produto', id_produto=item.id) if item.tipo == 'produto' else url_for('detalhes_combo', id_combo=item.id) }}">{{ item.nome }}</a>
+                        <br>
+                        <small>Qtd: {{ item.quantidade }} | Preço Unit.: R$ {{ "%.2f"|format(item.preco_unitario) }}</small>
+                    </div>
+                    <span>R$ {{ "%.2f"|format(item.total_item) }}</span>
+                    <a href="{{ url_for('remover_do_carrinho', tipo=item.tipo, item_id=item.id) }}" class="btn btn-danger btn-sm ms-2"><i class="fas fa-trash-alt"></i></a>
+                </li>
+                {% else %}
+                <li class="list-group-item">Nenhum item no carrinho.</li>
+                {% endfor %}
+            </ul>
+            <hr>
+            <div class="d-flex justify-content-between">
+                <h4>Total do Carrinho:</h4>
+                <h4 id="total_carrinho">R$ {{ "%.2f"|format(total_carrinho) }}</h4>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="container mt-4">
+    <h2>Finalizar Transação ou Salvar Orçamento</h2>
+    <form id="form_transacao" action="{{ url_for('finalizar_transacao') }}" method="post">
+        <div class="row">
+            <div class="col-md-6">
+                <div class="mb-3">
+                    <label for="cliente_id" class="form-label">Cliente:</label>
+                    <select id="cliente_id" name="cliente_id" class="form-select" required>
+                        <option value="" disabled selected>Selecione um cliente</option>
+                        {% for cliente in clientes %}
+                        <option value="{{ cliente.id }}">{{ cliente.nome }}</option>
+                        {% endfor %}
+                    </select>
+                </div>
+                <div class="mb-3">
+                    <label for="tipo" class="form-label">Tipo de Transação:</label>
+                    <select id="tipo" name="tipo" class="form-select" required>
+                        <option value="Venda">Venda</option>
+                        <option value="Aluguel">Aluguel</option>
+                    </select>
+                </div>
+                <div id="div_datas_aluguel" class="row mb-3" style="display: none;">
+                    <div class="col-md-6">
+                        <label for="data_inicio" class="form-label">Data de Início:</label>
+                        <input type="date" id="data_inicio" name="data_inicio" class="form-control">
+                    </div>
+                    <div class="col-md-6">
+                        <label for="data_fim" class="form-label">Data de Fim:</label>
+                        <input type="date" id="data_fim" name="data_fim" class="form-control">
+                    </div>
+                </div>
+                <div class="mb-3">
+                    <label for="forma_pagamento" class="form-label">Forma de Pagamento:</label>
+                    <input type="text" id="forma_pagamento" name="forma_pagamento" class="form-control" required>
+                </div>
+            </div>
+            <div class="col-md-6">
+                <div class="mb-3">
+                    <label for="frete" class="form-label">Frete (R$):</label>
+                    <input type="number" step="0.01" id="frete" name="frete" class="form-control" value="0.00" min="0">
+                </div>
+                <div class="mb-3">
+                    <label for="desconto" class="form-label">Desconto (R$):</label>
+                    <input type="number" step="0.01" id="desconto" name="desconto" class="form-control" value="0.00" min="0">
+                </div>
+                <div class="mb-3">
+                    <label for="servicos" class="form-label">Serviços (R$):</label>
+                    <input type="number" step="0.01" id="servicos" name="servicos" class="form-control" value="0.00" min="0">
+                </div>
+                <div class="mb-3">
+                    <label for="montagem" class="form-label">Montagem (R$):</label>
+                    <input type="number" step="0.01" id="montagem" name="montagem" class="form-control" value="0.00" min="0">
+                </div>
+            </div>
+        </div>
+        <button type="submit" class="btn btn-success mt-3"><i class="fas fa-check-circle"></i> Finalizar Transação</button>
+    </form>
+    
+    <div class="mt-3">
+        <form id="form_orcamento" action="{{ url_for('salvar_orcamento') }}" method="post">
+            <input type="hidden" name="cliente_id" id="orcamento_cliente_id">
+            <input type="hidden" name="frete" id="orcamento_frete">
+            <input type="hidden" name="desconto" id="orcamento_desconto">
+            <input type="hidden" name="servicos" id="orcamento_servicos">
+            <input type="hidden" name="montagem" id="orcamento_montagem">
+            <button type="submit" class="btn btn-info"><i class="fas fa-file-invoice"></i> Salvar Orçamento</button>
+        </form>
+    </div>
+</div>
+{% endblock %}
+
+{% block body_extra %}
+<script src="{{ url_for('static', filename='notifications.js') }}"></script>
+<script>
+    function setupAutocomplete(inputElement, url) {
+        let currentFocus;
+        inputElement.addEventListener("input", function(e) {
+            let a, b, val = this.value;
+            closeAllLists();
+            if (!val) { return false;}
+            currentFocus = -1;
+            
+            fetch(url + '?termo=' + val)
+                .then(response => response.json())
+                .then(data => {
+                    a = document.createElement("DIV");
+                    a.setAttribute("id", this.id + "autocomplete-list");
+                    a.setAttribute("class", "autocomplete-items");
+                    this.parentNode.appendChild(a);
+                    
+                    data.forEach(item => {
+                        b = document.createElement("DIV");
+                        b.innerHTML = `<strong>${item.nome}</strong>`;
+                        if (item.preco_venda_aluguel) { b.innerHTML += ` (R$ ${item.preco_venda_aluguel.toFixed(2)})`; }
+                        if (item.quantidade !== undefined) { b.innerHTML += ` - Estoque: ${item.quantidade}`; }
+                        
+                        b.addEventListener("click", function(e) {
+                            inputElement.value = item.nome;
+                            // CORREÇÃO: Preenche o campo ID que será enviado no POST
+                            document.getElementById('id_adicionar_item').value = item.id;
+                            closeAllLists();
+                        });
+                        a.appendChild(b);
+                    });
+                });
+        });
+        
+        function closeAllLists(elmnt) {
+            const x = document.getElementsByClassName("autocomplete-items");
+            for (let i = 0; i < x.length; i++) {
+                if (elmnt != x[i] && elmnt != inputElement) { x[i].parentNode.removeChild(x[i]); }
+            }
+        }
+        document.addEventListener("click", function (e) { closeAllLists(e.target); });
+    }
+    
+    setupAutocomplete(document.getElementById('campo-busca-produto'), '{{ url_for("buscar_produto_ajax") }}');
+    setupAutocomplete(document.getElementById('campo-busca-combo'), '{{ url_for("buscar_combo_ajax") }}');
+
+    document.getElementById('adicionar_tipo').addEventListener('change', function() {
+        const tipo = this.value;
+        document.getElementById('div_produto_select').style.display = (tipo === 'produto') ? 'block' : 'none';
+        document.getElementById('div_combo_select').style.display = (tipo === 'combo') ? 'block' : 'none';
+        document.getElementById('tipo_adicionar_item').value = tipo;
+        document.getElementById('id_adicionar_item').value = ''; 
+    });
+
+    const tipoTransacaoSelect = document.getElementById('tipo');
+    const divDatas = document.getElementById('div_datas_aluguel');
+    
+    tipoTransacaoSelect.addEventListener('change', function() {
+        divDatas.style.display = (this.value === 'Aluguel') ? 'block' : 'none';
+        document.getElementById('data_inicio').required = (this.value === 'Aluguel');
+        document.getElementById('data_fim').required = (this.value === 'Aluguel');
+    });
+
+    // CORREÇÃO: Sincroniza dados para o formulário de orçamento no momento do envio
+    document.getElementById('form_orcamento').addEventListener('submit', function() {
+        document.getElementById('orcamento_cliente_id').value = document.getElementById('cliente_id').value;
+        document.getElementById('orcamento_frete').value = document.getElementById('frete').value;
+        document.getElementById('orcamento_desconto').value = document.getElementById('desconto').value;
+        document.getElementById('orcamento_servicos').value = document.getElementById('servicos').value;
+        document.getElementById('orcamento_montagem').value = document.getElementById('montagem').value;
+    });
+</script>
+{% endblock %}

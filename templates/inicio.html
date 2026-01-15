@@ -1,0 +1,51 @@
+{% extends "base.html" %}
+
+{% block title %}Início{% endblock %}
+
+{% block content %}
+<div class="container mt-4 text-center">
+    <h1>Bem-vindo ao Gerenciamento da Loja de Decorações!</h1>
+    <p class="lead mt-4">
+        Aqui você pode gerenciar seu estoque, clientes, transações, combos e agendamentos de aluguel.
+    </p>
+    <div class="row mt-5">
+        <div class="col-md-4 mb-4">
+            <div class="card h-100">
+                <div class="card-body">
+                    <h5 class="card-title"><i class="fas fa-box-open fa-2x"></i></h5>
+                    <p class="card-text">Gerencie seus produtos, estoque e fotos.</p>
+                    <a href="{{ url_for('produtos') }}" class="btn btn-primary">Ver Produtos</a>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-4 mb-4">
+            <div class="card h-100">
+                <div class="card-body">
+                    <h5 class="card-title"><i class="fas fa-users fa-2x"></i></h5>
+                    <p class="card-text">Cadastre e organize as informações dos seus clientes.</p>
+                    <a href="{{ url_for('clientes') }}" class="btn btn-primary">Ver Clientes</a>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-4 mb-4">
+            <div class="card h-100">
+                <div class="card-body">
+                    <h5 class="card-title"><i class="fas fa-calendar-alt fa-2x"></i></h5>
+                    <p class="card-text">Gerencie os aluguéis e a disponibilidade de itens.</p>
+                    <a href="{{ url_for('agenda') }}" class="btn btn-primary">Ver Agenda</a>
+                </div>
+            </div>
+        </div>
+    </div>
+    <hr class="my-5">
+    <a href="{{ url_for('backup') }}" class="btn btn-info btn-lg me-3">
+        <i class="fas fa-save"></i> Fazer Backup
+    </a>
+    <a href="{{ url_for('restaurar') }}" class="btn btn-success btn-lg me-3">
+        <i class="fas fa-sync-alt"></i> Restaurar Dados
+    </a>
+    <a href="{{ url_for('limpar_dados') }}" class="btn btn-danger btn-lg" onclick="return confirm('ATENÇÃO: Isso apagará TODOS os dados (produtos, clientes, combos e transações). Tem certeza?');">
+        <i class="fas fa-exclamation-triangle"></i> Limpar Todos os Dados
+    </a>
+</div>
+{% endblock %}

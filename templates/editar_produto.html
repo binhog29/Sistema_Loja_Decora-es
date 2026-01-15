@@ -1,0 +1,217 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Gerenciar Produtos</title>
+    <link rel="manifest" href="{{ url_for('static', filename='manifest.json') }}">
+    <script>
+        if ('serviceWorker' in navigator) {
+            window.addEventListener('load', function() {
+                console.log('Tentando registrar o Service Worker...');
+                navigator.serviceWorker.register('{{ url_for('static', filename='service-worker.js') }}').then(function(registration) {
+                    console.log('Service Worker registrado com sucesso: ', registration.scope);
+                }, function(err) {
+                    console.log('Falha no registro do Service Worker: ', err);
+                });
+            });
+        } else {
+            console.log('Seu navegador não suporta Service Worker.');
+        }
+    </script>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+</head>
+<body>
+
+    <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+    <div class="container-fluid">
+        <a class="navbar-brand" href="/">Gerenciamento da Loja de Decorações</a>
+        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse" id="navbarNav">
+            <ul class="navbar-nav">
+                <li class="nav-item">
+                    <a class="nav-link active" aria-current="page" href="{{ url_for('produtos') }}"><i class="fas fa-box-open"></i> Produtos</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="{{ url_for('clientes') }}"><i class="fas fa-users"></i> Clientes</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="{{ url_for('nova_transacao') }}"><i class="fas fa-cart-plus"></i> Nova Transação</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="{{ url_for('historico_transacoes') }}"><i class="fas fa-exchange-alt"></i> Transações</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="{{ url_for('combos') }}"><i class="fas fa-boxes"></i> Combos</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="{{ url_for('agenda') }}"><i class="fas fa-calendar-alt"></i> Agenda</a>
+                </li>
+            </ul>
+        </div>
+    </div>
+</nav>
+
+
+    <div class="container mt-4">
+
+        <h2 class="d-flex justify-content-between align-items-center">
+            <span>Gerenciar Produtos</span>
+            <a href="{{ url_for('lista_produtos') }}" class="btn btn-secondary btn-sm"><i class="fas fa-eye"></i> Ver Produtos</a>
+        </h2>
+        <hr>
+
+        <h3>Ajuste Rápido de Estoque</h3>
+        <form action="{{ url_for('ajustar_estoque') }}" method="post" class="mb-4">
+            <div class="row">
+                <div class="col-md-5 mb-3">
+                    <label for="campo-busca-ajuste" class="form-label">Produto:</label>
+                    <div class="autocomplete">
+                        <input type="text" id="campo-busca-ajuste" class="form-control" placeholder="Digite o nome ou ID do produto">
+                        <input type="hidden" id="id_produto_ajuste_hidden" name="id_produto" required>
+                    </div>
+                </div>
+                <div class="col-md-3 mb-3">
+                    <label for="quantidade_ajuste" class="form-label">Quantidade:</label>
+                    <input type="number" id="quantidade_ajuste" name="quantidade_ajuste" class="form-control" value="1" min="1" required>
+                </div>
+                <div class="col-md-4 mb-3 d-flex align-items-end">
+                    <button type="submit" name="acao" value="adicionar" class="btn btn-success me-2"><i class="fas fa-plus-circle"></i> Adicionar</button>
+                    <button type="submit" name="acao" value="remover" class="btn btn-danger"><i class="fas fa-minus-circle"></i> Remover</button>
+                </div>
+            </div>
+        </form>
+
+        <hr>
+        
+        <h3>Cadastrar Novo Produto</h3>
+        <form action="{{ url_for('adicionar_produto') }}" method="post" enctype="multipart/form-data" class="mb-4">
+            <div class="mb-3">
+                <label for="nome" class="form-label">Nome do Produto:</label>
+                <input type="text" id="nome" name="nome" class="form-control" required>
+            </div>
+            <div class="mb-3">
+                <label for="quantidade" class="form-label">Quantidade em Estoque:</label>
+                <input type="number" id="quantidade" name="quantidade" class="form-control" required>
+            </div>
+            <div class="mb-3">
+                <label for="tipo" class="form-label">Tipo:</label>
+                <select id="tipo" name="tipo" class="form-select">
+                    <option value="Venda">Venda</option>
+                    <option value="Aluguel">Aluguel</option>
+                </select>
+            </div>
+            <div class="row">
+                <div class="col-md-4 mb-3">
+                    <label for="preco_compra" class="form-label">Preço de Compra (R$):</label>
+                    <input type="number" step="0.01" id="preco_compra" name="preco_compra" class="form-control" required>
+                </div>
+                <div class="col-md-4 mb-3">
+                    <label for="porcentagem_lucro" class="form-label">Lucro (%):</label>
+                    <input type="number" step="0.01" id="porcentagem_lucro" name="porcentagem_lucro" class="form-control" required>
+                </div>
+                <div class="col-md-4 mb-3">
+                    <label for="preco_venda_aluguel_exibicao" class="form-label">Preço Final (R$):</label>
+                    <input type="text" id="preco_venda_aluguel_exibicao" class="form-control" disabled>
+                </div>
+            </div>
+            <div class="mb-3">
+                <label for="foto" class="form-label">Foto do Produto:</label>
+                <div class="input-group file-input-wrapper">
+                    <label class="file-input-label" for="foto">
+                        <i class="fas fa-upload"></i> Escolher arquivo
+                    </label>
+                    <input type="file" id="foto" name="foto" class="form-control" onchange="updateFileName(this)">
+                    <span id="file-name" class="form-control-plaintext ms-2">Nenhum arquivo escolhido</span>
+                </div>
+            </div>
+            <button type="submit" class="btn btn-primary"><i class="fas fa-save"></i> Salvar Produto</button>
+        </form>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+
+    <script>
+        function updateFileName(input) {
+            const fileNameSpan = document.getElementById('file-name');
+            if (input.files.length > 0) {
+                fileNameSpan.textContent = input.files[0].name;
+            } else {
+                fileNameSpan.textContent = 'Nenhum arquivo escolhido';
+            }
+        }
+
+        const precoCompraInput = document.getElementById('preco_compra');
+        const porcentagemLucroInput = document.getElementById('porcentagem_lucro');
+        const precoVendaAluguelExibicao = document.getElementById('preco_venda_aluguel_exibicao');
+
+        function calcularPrecoVenda() {
+            const precoCompra = parseFloat(precoCompraInput.value) || 0;
+            const porcentagemLucro = parseFloat(porcentagemLucroInput.value) || 0;
+            const precoCalculado = precoCompra * (1 + porcentagemLucro / 100);
+            precoVendaAluguelExibicao.value = precoCalculado.toFixed(2);
+        }
+
+        if (precoCompraInput && porcentagemLucroInput) {
+            precoCompraInput.addEventListener('input', calcularPrecoVenda);
+            porcentagemLucroInput.addEventListener('input', calcularPrecoVenda);
+            document.addEventListener('DOMContentLoaded', () => {
+                calcularPrecoVenda();
+            });
+        }
+        
+        const campoBuscaAjuste = document.getElementById("campo-busca-ajuste");
+        const idProdutoAjusteHidden = document.getElementById("id_produto_ajuste_hidden");
+        let currentFocus;
+        
+        campoBuscaAjuste.addEventListener("input", function(e) {
+            var a, b, i, val = this.value;
+            closeAllLists();
+            if (!val) { return false; }
+            currentFocus = -1;
+            
+            fetch('{{ url_for('buscar_produto_ajax') }}?termo=' + val)
+                .then(response => response.json())
+                .then(data => {
+                    a = document.createElement("DIV");
+                    a.setAttribute("id", this.id + "autocomplete-list");
+                    a.setAttribute("class", "autocomplete-items");
+                    this.parentNode.appendChild(a);
+                    
+                    data.forEach(item => {
+                        b = document.createElement("DIV");
+                        b.innerHTML = `<strong>${item.nome}</strong> (Estoque: ${item.quantidade})`;
+                        b.addEventListener("click", function(e) {
+                            campoBuscaAjuste.value = item.nome;
+                            idProdutoAjusteHidden.value = item.id;
+                            closeAllLists();
+                        });
+                        a.appendChild(b);
+                    });
+                });
+        });
+        
+        function closeAllLists(elmnt) {
+            var x = document.getElementsByClassName("autocomplete-items");
+            for (var i = 0; i < x.length; i++) {
+                if (elmnt != x[i] && elmnt != campoBuscaAjuste) {
+                    x[i].parentNode.removeChild(x[i]);
+                }
+            }
+        }
+        
+        document.addEventListener("click", function (e) {
+            closeAllLists(e.target);
+        });
+    </script>
+    <footer class="footer">
+        <div class="container">
+            <p>&copy; 2025 Gerenciamento da Loja de Decorações. Todos os direitos reservados.</p>
+        </div>
+    </footer>
+</body>
+</html>

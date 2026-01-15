@@ -1,0 +1,154 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Gerenciamento de Combos</title>
+    <link rel="manifest" href="{{ url_for('static', filename='manifest.json') }}">
+    <script>
+        if ('serviceWorker' in navigator) {
+            window.addEventListener('load', function() {
+                console.log('Tentando registrar o Service Worker...');
+                navigator.serviceWorker.register('{{ url_for('static', filename='service-worker.js') }}').then(function(registration) {
+                    console.log('Service Worker registrado com sucesso: ', registration.scope);
+                }, function(err) {
+                    console.log('Falha no registro do Service Worker: ', err);
+                });
+            });
+        } else {
+            console.log('Seu navegador não suporta Service Worker.');
+        }
+    </script>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+</head>
+<body>
+
+    <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+    <div class="container-fluid">
+        <a class="navbar-brand" href="/">Gerenciamento da Loja de Decorações</a>
+        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse" id="navbarNav">
+            <ul class="navbar-nav">
+                <li class="nav-item">
+                    <a class="nav-link" href="{{ url_for('produtos') }}"><i class="fas fa-box-open"></i> Produtos</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="{{ url_for('clientes') }}"><i class="fas fa-users"></i> Clientes</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="{{ url_for('nova_transacao') }}"><i class="fas fa-cart-plus"></i> Nova Transação</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="{{ url_for('historico_transacoes') }}"><i class="fas fa-exchange-alt"></i> Transações</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link active" aria-current="page" href="{{ url_for('combos') }}"><i class="fas fa-boxes"></i> Combos</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="{{ url_for('agenda') }}"><i class="fas fa-calendar-alt"></i> Agenda</a>
+                </li>
+            </ul>
+        </div>
+    </div>
+</nav>
+
+
+    <div class="container mt-4">
+        <h2>Adicionar Novo Combo</h2>
+        <form action="{{ url_for('adicionar_combo') }}" method="post" class="mb-4">
+            <div class="mb-3">
+                <label for="nome_combo" class="form-label">Nome do Combo:</label>
+                <input type="text" id="nome_combo" name="nome" class="form-control" required>
+            </div>
+            
+            <div class="mb-3">
+                <label for="observacoes" class="form-label">Observações Adicionais:</label>
+                <textarea id="observacoes" name="observacoes" class="form-control"></textarea>
+            </div>
+            
+            <div class="mb-3">
+                <label for="valores_adicionais" class="form-label">Valores Adicionais (R$):</label>
+                <input type="number" step="0.01" id="valores_adicionais" name="valores_adicionais" class="form-control" value="0.00" min="0">
+            </div>
+
+            <div class="mb-3">
+                <label class="form-label">Selecione os Produtos e Quantidade:</label>
+                <div class="list-group">
+                    {% for produto in produtos %}
+                    <div class="list-group-item d-flex justify-content-between align-items-center">
+                        <div>
+                            <input class="form-check-input me-1" type="checkbox" name="itens_combo[]" value="{{ produto.id }}" id="item-{{ produto.id }}">
+                            <label class="form-check-label" for="item-{{ produto.id }}">
+                                {{ produto.nome }} (R$ {{ "{:.2f}".format(produto.preco_venda_aluguel) }})
+                            </label>
+                        </div>
+                        <div class="input-group w-auto">
+                            <span class="input-group-text">Qtd</span>
+                            <input type="number" name="quantidade_{{ produto.id }}" class="form-control form-control-sm" value="1" min="1" style="width: 70px;">
+                        </div>
+                    </div>
+                    {% endfor %}
+                </div>
+            </div>
+
+            <button type="submit" class="btn btn-primary"><i class="fas fa-save"></i> Salvar Combo</button>
+        </form>
+        <hr>
+        <h2>Lista de Combos</h2>
+        <div class="table-responsive">
+            <table class="table table-striped">
+                <thead>
+                    <tr>
+                        <th>ID</th>
+                        <th>Nome</th>
+                        <th>Preço Total (R$)</th>
+                        <th>Ações</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for combo in combos %}
+                    <tr>
+                        <td>{{ combo.id }}</td>
+                        <td><a href="{{ url_for('detalhes_combo', id_combo=combo.id) }}">{{ combo.nome }}</a></td>
+                        <td>{{ "{:.2f}".format(combo.preco_total) }}</td>
+                        <td>
+                            <a href="{{ url_for('pagina_editar_combo', id_combo=combo.id) }}" class="btn btn-warning btn-sm"><i class="fas fa-edit"></i> Editar</a>
+                            <a href="{{ url_for('deletar_combo', id_combo=combo.id) }}" class="btn btn-danger btn-sm" onclick="return confirm('Tem certeza que deseja deletar este combo?');"><i class="fas fa-trash-alt"></i> Excluir</a>
+                        </td>
+                    </tr>
+                    {% else %}
+                    <tr>
+                        <td colspan="4">Nenhum combo cadastrado.</td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            document.querySelectorAll('.produto-checkbox').forEach(function(checkbox) {
+                checkbox.addEventListener('change', function() {
+                    const inputGroup = this.closest('.form-check').querySelector('.input-group');
+                    if (this.checked) {
+                        inputGroup.style.display = 'flex';
+                    } else {
+                        inputGroup.style.display = 'none';
+                    }
+                });
+            });
+        });
+    </script>
+    <footer class="footer">
+        <div class="container">
+            <p>&copy; 2025 Gerenciamento da Loja de Decorações. Todos os direitos reservados.</p>
+        </div>
+    </footer>
+</body>
+</html>

@@ -1,0 +1,58 @@
+{
+    "clientes": {
+        "1": {
+            "nome": "Fabio gon\u00e7alves borges",
+            "telefone": "69993738588",
+            "endereco": "Rua 7 de setembro ",
+            "coordenadas": "-10.2596883,-63.2989983",
+            "observacao": "",
+            "foto": null
+        }
+    },
+    "combos": {},
+    "produtos": {
+        "1": {
+            "nome": "Exemplo01",
+            "quantidade": 48,
+            "tipo": "Aluguel",
+            "preco_compra": 50.0,
+            "porcentagem_lucro": 100.0,
+            "preco_venda_aluguel": 100.0,
+            "foto": null
+        },
+        "2": {
+            "nome": "Painel exemplo ",
+            "quantidade": 2,
+            "tipo": "Aluguel",
+            "preco_compra": 250.0,
+            "porcentagem_lucro": 10.0,
+            "preco_venda_aluguel": 275.0,
+            "foto": null
+        }
+    },
+    "transacoes": {
+        "1": {
+            "id_cliente": "1",
+            "tipo": "Aluguel",
+            "data": "2025-08-28T17:10:50.445814",
+            "data_inicio": "2025-08-28",
+            "data_fim": "2025-08-29",
+            "itens": [
+                {
+                    "id_produto": "1",
+                    "nome": "Exemplo01",
+                    "quantidade": 2,
+                    "preco_unitario": 100.0,
+                    "total_item": 200.0
+                }
+            ],
+            "total_itens": 200.0,
+            "frete": 50.0,
+            "desconto": 0.0,
+            "servicos": 0.0,
+            "montagem": 0.0,
+            "forma_pagamento": "Dinheiro",
+            "total": 250.0
+        }
+    }
+}

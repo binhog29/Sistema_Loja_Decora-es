@@ -1,0 +1,63 @@
+{% extends "base.html" %}
+
+{% block title %}Relatórios Financeiros{% endblock %}
+
+{% block content %}
+<div class="container mt-4">
+    <h2>Relatórios Financeiros do Mês</h2>
+    <hr>
+
+    <div class="row text-center mb-4">
+        <div class="col-md-4">
+            <div class="card bg-secondary text-white p-3 h-100">
+                <div class="card-body">
+                    <h5 class="card-title">Total de Vendas</h5>
+                    <p class="card-text fs-2">R$ {{ "{:.2f}".format(total_vendas_mes) }}</p>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-4">
+            <div class="card bg-secondary text-white p-3 h-100">
+                <div class="card-body">
+                    <h5 class="card-title">Total de Aluguéis</h5>
+                    <p class="card-text fs-2">R$ {{ "{:.2f}".format(total_alugueis_mes) }}</p>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-4">
+            <div class="card bg-secondary text-white p-3 h-100">
+                <div class="card-body">
+                    <h5 class="card-title">Total Geral</h5>
+                    <p class="card-text fs-2">R$ {{ "{:.2f}".format(total_geral_mes) }}</p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <h3 class="mt-5">Top 5 Produtos Mais Vendidos/Alugados</h3>
+    <div class="table-responsive">
+        <table class="table table-striped">
+            <thead>
+                <tr>
+                    <th>Posição</th>
+                    <th>Nome do Produto</th>
+                    <th>Quantidade</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for produto in produtos_populares %}
+                <tr>
+                    <td>{{ loop.index }}</td>
+                    <td>{{ produto.nome }}</td>
+                    <td>{{ produto.quantidade }}</td>
+                </tr>
+                {% else %}
+                <tr>
+                    <td colspan="3">Nenhum produto encontrado nas transações deste mês.</td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+</div>
+{% endblock %}

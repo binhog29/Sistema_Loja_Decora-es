@@ -1,0 +1,20 @@
+{
+    "1": {
+        "nome": "Exemplo01",
+        "quantidade": 50,
+        "tipo": "Aluguel",
+        "preco_compra": 50.0,
+        "porcentagem_lucro": 100.0,
+        "preco_venda_aluguel": 100.0,
+        "foto": null
+    },
+    "2": {
+        "nome": "Painel exemplo ",
+        "quantidade": 2,
+        "tipo": "Aluguel",
+        "preco_compra": 250.0,
+        "porcentagem_lucro": 10.0,
+        "preco_venda_aluguel": 275.0,
+        "foto": null
+    }
+}
